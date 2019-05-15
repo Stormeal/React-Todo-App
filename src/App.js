@@ -14,6 +14,12 @@ import './App.css';
     </div>
 */
 
+const todos = [
+  'Learn React',
+  'Learn Redux',
+  'Learn React Native'
+]
+
 function App() {
   return (
     React.createElement(
@@ -26,27 +32,7 @@ function App() {
         {
           className: 'todo-container'
         },
-        React.createElement(
-          'div',
-          {
-            className: 'todo-item-row'
-          },
-          'Learn React'
-        ),
-        React.createElement(
-          'div',
-          {
-            className: 'todo-item-row'
-          },
-          'Learn Redux'
-        ),
-        React.createElement(
-          'div',
-          {
-            className: 'todo-item-row'
-          },
-          'Learn React-Native'
-        ),
+        todos.map((todo, index) => React.createElement('div', { className: 'todo-item-row', key: index, }, todo)),
       )
     )
   );
