@@ -46,7 +46,7 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    this.handleInputChange = this.handleInputChange.bind(this,)
+    this.handleInputChange = this.handleInputChange.bind(this)
   }
 
   handleTodoClick(todo, index) {
@@ -61,12 +61,35 @@ class App extends Component {
     this.setState({ newTodo: value })
   }
 
+  handleNewTodoKeyDown = event => {
+    if (this.state.todos.length >= 10) {
+      // Don't allow more than 10 todos
+      return
+    }
+
+    if (event.keyCode !== 13) { // 13 is enter (return) key
+      return
+    }
+    event.preventDefault()
+
+
+    const { newTodo, todos } = this.state
+    const value = newTodo.trim()
+    if (value) {
+      this.setState({
+        todos: [...todos, { title: value, completed: false }],
+        newTodo: '',
+      })
+    }
+
+  }
+
   render() {
     return (
       <div className="app">
         <div className="todo-container">
-          <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus value={this.state.newTodo}
-            onChange={this.handleInputChange} />
+          <input id="new-todo" className="new-todo" placeholder="What needs to be done?" type="text" autoFocus value={this.state.newTodo}
+            onChange={this.handleInputChange} onKeyDown={this.handleNewTodoKeyDown} />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
           <Table>
             <Table.Header>
