@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Table, Checkbox, Button } from 'semantic-ui-react';
 
@@ -18,6 +17,22 @@ const TodoItem = ({ children }) => (
   </Table.Row>
 )
 
+
+class Counter extends Component {
+  state = {
+    counter: 0
+  }
+
+  render() {
+    const { counter } = this.state
+    return (
+      <Button onClick={() => {
+        this.setState({ counter: counter + 1 })
+      }}>You have clicked {counter} times!</Button>
+    )
+  }
+}
+
 class App extends Component {
   state = {
     todos: [
@@ -32,6 +47,7 @@ class App extends Component {
     return (
       <div className="app">
         <div className="todo-container">
+          <Counter />
           <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
           <Table>
