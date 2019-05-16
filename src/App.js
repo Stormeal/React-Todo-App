@@ -36,10 +36,10 @@ class Counter extends Component {
 class App extends Component {
   state = {
     todos: [
-      'Learn React',
-      'Learn Redux',
-      'Learn React Native',
-      'Create a brand new Web App!'
+      { title: 'Learn React', completed: false },
+      { title: 'Learn Redux', completed: false },
+      { title: 'Learn React Native', completed: false },
+      { title: 'Create a brand new Web App!', completed: false }
     ]
   }
 
@@ -47,7 +47,6 @@ class App extends Component {
     return (
       <div className="app">
         <div className="todo-container">
-          <Counter />
           <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
           <Table>
@@ -60,7 +59,21 @@ class App extends Component {
             </Table.Header>
             <Table.Body>
               {this.state.todos.map((todo, i) => (
-                <TodoItem key={i}>{todo}</TodoItem>
+                <Table.Row key={i} positive={todo.completed}>
+                  <Table.Cell>
+                    <Checkbox checked={todo.completed} onChange={() => {
+                      const { completed } = todo
+                      const [...todos] = this.state.todos
+                      todos[i] = { ...todo, completed: !completed, }
+                      this.setState({ todos })
+                    }} />
+                  </Table.Cell>
+
+                  <Table.Cell>
+                    {todo.title}
+                    <Button color="red" icon="trash" floated="right" compact size="small" />
+                  </Table.Cell>
+                </Table.Row>
               ))}
             </Table.Body>
           </Table>
