@@ -17,8 +17,17 @@ import './App.css';
 const todos = [
   'Learn React',
   'Learn Redux',
-  'Learn React Native'
+  'Learn React Native',
+  'Create a brand new Web App!'
 ]
+
+const renderTodos = todos => {
+  return todos.map((todo, i) => (
+    <div className="todo-item-row" key={i}>
+      {todo}
+    </div>
+  ))
+}
 
 function App() {
   return (
@@ -26,11 +35,7 @@ function App() {
       <div className="todo-container">
         <input id="new-todo" />
         <label htmlFor="new-todo">New Todo</label>
-        <div className="todo-item-row">Learn React </div>
-        <div className="todo-item-row">Learn Redux </div>
-        <div className="todo-item-row">Learn React Native </div>
-
-
+        {renderTodos(todos)}
       </div>
     </div>
 
