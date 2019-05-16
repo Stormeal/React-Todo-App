@@ -40,7 +40,13 @@ class App extends Component {
       { title: 'Learn Redux', completed: false },
       { title: 'Learn React Native', completed: false },
       { title: 'Create a brand new Web App!', completed: false }
-    ]
+    ],
+    newTodo: '',
+  }
+
+  constructor(props) {
+    super(props)
+    this.handleInputChange = this.handleInputChange.bind(this,)
   }
 
   handleTodoClick(todo, index) {
@@ -50,11 +56,17 @@ class App extends Component {
     this.setState({ todos })
   }
 
+  handleInputChange(event) {
+    const value = event.target.value
+    this.setState({ newTodo: value })
+  }
+
   render() {
     return (
       <div className="app">
         <div className="todo-container">
-          <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus />
+          <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus value={this.state.newTodo}
+            onChange={this.handleInputChange} />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
           <Table>
             <Table.Header>
