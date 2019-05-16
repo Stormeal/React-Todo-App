@@ -43,6 +43,13 @@ class App extends Component {
     ]
   }
 
+  handleTodoClick(todo, index) {
+    const { completed } = todo
+    const [...todos] = this.state.todos
+    todos[index] = { ...todo, completed: !completed, }
+    this.setState({ todos })
+  }
+
   render() {
     return (
       <div className="app">
@@ -61,12 +68,7 @@ class App extends Component {
               {this.state.todos.map((todo, i) => (
                 <Table.Row key={i} positive={todo.completed}>
                   <Table.Cell>
-                    <Checkbox checked={todo.completed} onChange={() => {
-                      const { completed } = todo
-                      const [...todos] = this.state.todos
-                      todos[i] = { ...todo, completed: !completed, }
-                      this.setState({ todos })
-                    }} />
+                    <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
                   </Table.Cell>
 
                   <Table.Cell>
