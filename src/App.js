@@ -21,13 +21,31 @@ const todos = [
   'Create a brand new Web App!'
 ]
 
+
 const renderTodos = todos => {
   return todos.map((todo, i) => (
-    <div className="todo-item-row" key={i}>
+    <TodoItem key={i}>
       {todo}
-    </div>
+    </TodoItem>
+
   ))
 }
+
+/*
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+*/
+
+const TodoItem = ({ children }) => <div style=
+  {{
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }}>
+    
+  {children}
+</div>
 
 function App() {
   return (
