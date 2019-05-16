@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -22,20 +22,19 @@ const todos = [
 
 function App() {
   return (
-    React.createElement(
-      'div',
-      {
-        className: 'app'
-      },
-      React.createElement(
-        'div',
-        {
-          className: 'todo-container'
-        },
-        todos.map((todo, index) => React.createElement('div', { className: 'todo-item-row', key: index, }, todo)),
-      )
-    )
-  );
+    <div className="app">
+      <div className="todo-container">
+        <input id="new-todo" />
+        <label htmlFor="new-todo">New Todo</label>
+        <div className="todo-item-row">Learn React </div>
+        <div className="todo-item-row">Learn Redux </div>
+        <div className="todo-item-row">Learn React Native </div>
+
+
+      </div>
+    </div>
+
+  )
 }
 
 export default App;
