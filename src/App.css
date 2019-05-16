@@ -10,6 +10,13 @@
   grid-row: 2 / 2;
 }
 
+.new-todo {
+  width: 100%;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
 .todo-item-row {
   display: flex;
   justify-content: space-between;

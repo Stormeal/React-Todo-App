@@ -1,18 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Table, Checkbox, Button } from 'semantic-ui-react';
 
-/*
-    <div class="app">
-      <div class="todo-container">
-        <div class="todo-item-row">Learn React </div>
-        <div class="todo-item-row">Learn Redux </div>
-        <div class="todo-item-row">Learn React Native </div>
-
-
-      </div>
-    </div>
-*/
 
 const todos = [
   'Learn React',
@@ -31,29 +21,39 @@ const renderTodos = todos => {
   ))
 }
 
-/*
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-*/
 
-const TodoItem = ({ children }) => <div style=
-  {{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  }}>
-    
-  {children}
-</div>
+const TodoItem = ({ children }) => (
+  <Table.Row>
+    <Table.Cell>
+      <Checkbox />
+    </Table.Cell>
+
+    <Table.Cell>
+      {children}
+      <Button color="red" icon="trash" floated="right" compact size="small" />
+    </Table.Cell>
+  </Table.Row>
+)
+
 
 function App() {
   return (
     <div className="app">
       <div className="todo-container">
-        <input id="new-todo" />
-        <label htmlFor="new-todo">New Todo</label>
-        {renderTodos(todos)}
+        <input id="new-todo" className="new-todo" placeholder="What needs to be done?" autoFocus />
+        <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Checkbox />
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {renderTodos(todos)}
+          </Table.Body>
+        </Table>
       </div>
     </div>
 
