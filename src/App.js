@@ -49,6 +49,17 @@ class App extends Component {
     this.handleInputChange = this.handleInputChange.bind(this)
   }
 
+  handleToggleAll = () => {
+    const [...todos] = this.state.todos
+    const allToggled = todos.every(todo => todo.completed)
+    const toggledTodos = todos.map(todo => ({ ...todo, completed: !allToggled }))
+    console.log({ toggledTodos });
+
+    this.setState({ todos: toggledTodos })
+
+
+  }
+
   handleTodoClick(todo, index) {
     const { completed } = todo
     const [...todos] = this.state.todos
@@ -90,8 +101,16 @@ class App extends Component {
     this.setState({ todos: todosWithoutDeletedTodo })
   }
 
+  handleClearCompleted = () => {
+    const { todos } = this.state
+    const incompleteTodos = todos.filter(todo => !todo.completed)
+    this.setState({ todos: incompleteTodos })
+
+  }
+
   render() {
-    const {todos, newTodo} = this.state
+    const { todos, newTodo } = this.state
+    const allToggled = todos.every(todo => todo.completed)
     return (
       <div className="app">
         <div className="todo-container">
@@ -99,39 +118,46 @@ class App extends Component {
             onChange={this.handleInputChange} onKeyDown={this.handleNewTodoKeyDown} />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
           {todos.length === 0 ? (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>
-                  You have nothing to do!
-                </Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-          </Table>
-          ) : (
             <Table>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>
-                    <Checkbox />
-                  </Table.HeaderCell>
+                    You have nothing to do!
+                </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
-              <Table.Body>
-                {this.state.todos.map((todo, i) => (
-                  <Table.Row key={i} positive={todo.completed}>
-                    <Table.Cell>
-                      <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
-                    </Table.Cell>
-
-                    <Table.Cell>
-                      {todo.title}
-                      <Button color="red" icon="trash" floated="right" compact size="small" onClick={() => this.handleDelete(todo, i)} />
-                    </Table.Cell>
+            </Table>
+          ) : (
+              <Table>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>
+                      <Checkbox checked={allToggled} onChange={this.handleToggleAll} />
+                    </Table.HeaderCell>
                   </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>)}
+                </Table.Header>
+                <Table.Body>
+                  {this.state.todos.map((todo, i) => (
+                    <Table.Row key={i} positive={todo.completed}>
+                      <Table.Cell>
+                        <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
+                      </Table.Cell>
+
+                      <Table.Cell>
+                        {todo.title}
+                        <Button color="red" icon="trash" floated="right" compact size="small" onClick={() => this.handleDelete(todo, i)} />
+                      </Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table.Body>
+                <Table.Footer fullWidth>
+                  <Table.Row>
+                    <Table.HeaderCell colSpan="2">
+                      <Button size="small" onClick={this.handleClearCompleted}>Clear Completed</Button>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
+              </Table>)}
         </div>
       </div>
 
