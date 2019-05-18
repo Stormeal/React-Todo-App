@@ -80,7 +80,7 @@ class TodoApp extends Component {
     }
 
     render() {
-        const { todos, newTodo } = this.state
+        const { todos } = this.state
         const allToggled = todos.every(todo => todo.completed)
         return (
             <div className="todo-container">

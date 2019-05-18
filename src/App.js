@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Table, Checkbox, Button } from 'semantic-ui-react';
 
 import './App.css';
 import TodoApp from './components/TodoApp'

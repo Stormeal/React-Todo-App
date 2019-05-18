@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Table, Checkbox, Button } from 'semantic-ui-react';
 
 export const TodoItem = props => {
