@@ -4,18 +4,22 @@ import { Table, Checkbox, Button, Tab } from 'semantic-ui-react';
 
 
 
-const TodoItem = ({ children }) => (
-  <Table.Row>
-    <Table.Cell>
-      <Checkbox />
-    </Table.Cell>
+const TodoItem = props => {
+  const { todo, handleDelete, handleToggle } = props
+  return (
+    <Table.Row positive={todo.completed}>
+      <Table.Cell>
+        <Checkbox checked={todo.completed} onChange={handleToggle} />
+      </Table.Cell>
 
-    <Table.Cell>
-      {children}
-      <Button color="red" icon="trash" floated="right" compact size="small" />
-    </Table.Cell>
-  </Table.Row>
-)
+      <Table.Cell>
+        {todo.title}
+        <Button color="red" icon="trash" floated="right" compact size="small" onClick={handleDelete} />
+      </Table.Cell>
+    </Table.Row>
+
+  )
+}
 
 
 class Counter extends Component {
@@ -33,7 +37,7 @@ class Counter extends Component {
   }
 }
 
-class App extends Component {
+class TodoApp extends Component {
   state = {
     todos: [
       { title: 'Learn React', completed: false },
@@ -95,7 +99,7 @@ class App extends Component {
 
   }
 
-  handleDelete = (todo, i) => {
+  handleDelete = (i) => {
     const { todos } = this.state
     const todosWithoutDeletedTodo = todos.filter((t, index) => index !== i)
     this.setState({ todos: todosWithoutDeletedTodo })
@@ -138,16 +142,7 @@ class App extends Component {
                 </Table.Header>
                 <Table.Body>
                   {this.state.todos.map((todo, i) => (
-                    <Table.Row key={i} positive={todo.completed}>
-                      <Table.Cell>
-                        <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
-                      </Table.Cell>
-
-                      <Table.Cell>
-                        {todo.title}
-                        <Button color="red" icon="trash" floated="right" compact size="small" onClick={() => this.handleDelete(todo, i)} />
-                      </Table.Cell>
-                    </Table.Row>
+                    <TodoItem key={i} todo={todo} handleToggle={() => this.handleTodoClick(todo, i)} handleDelete={() => this.handleDelete(i)} />
                   ))}
                 </Table.Body>
                 <Table.Footer fullWidth>
@@ -166,4 +161,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default TodoApp;
