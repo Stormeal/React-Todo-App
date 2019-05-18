@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Table, Checkbox, Button } from 'semantic-ui-react';
+import { Table, Checkbox, Button, Tab } from 'semantic-ui-react';
 
 
 
@@ -84,36 +84,54 @@ class App extends Component {
 
   }
 
+  handleDelete = (todo, i) => {
+    const { todos } = this.state
+    const todosWithoutDeletedTodo = todos.filter((t, index) => index !== i)
+    this.setState({ todos: todosWithoutDeletedTodo })
+  }
+
   render() {
+    const {todos, newTodo} = this.state
     return (
       <div className="app">
         <div className="todo-container">
           <input id="new-todo" className="new-todo" placeholder="What needs to be done?" type="text" autoFocus value={this.state.newTodo}
             onChange={this.handleInputChange} onKeyDown={this.handleNewTodoKeyDown} />
           <label htmlFor="new-todo" style={{ display: 'none' }}>New Todo</label>
+          {todos.length === 0 ? (
           <Table>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>
-                  <Checkbox />
+                  You have nothing to do!
                 </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
-            <Table.Body>
-              {this.state.todos.map((todo, i) => (
-                <Table.Row key={i} positive={todo.completed}>
-                  <Table.Cell>
-                    <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
-                  </Table.Cell>
-
-                  <Table.Cell>
-                    {todo.title}
-                    <Button color="red" icon="trash" floated="right" compact size="small" />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
           </Table>
+          ) : (
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>
+                    <Checkbox />
+                  </Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {this.state.todos.map((todo, i) => (
+                  <Table.Row key={i} positive={todo.completed}>
+                    <Table.Cell>
+                      <Checkbox checked={todo.completed} onChange={() => this.handleTodoClick(todo, i)} />
+                    </Table.Cell>
+
+                    <Table.Cell>
+                      {todo.title}
+                      <Button color="red" icon="trash" floated="right" compact size="small" onClick={() => this.handleDelete(todo, i)} />
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>)}
         </div>
       </div>
 
