@@ -3,6 +3,10 @@ import { Table, Checkbox, Button } from 'semantic-ui-react';
 
 import TodoItem from './TodoItem'
 
+fetch('http://localhost:4500/todos')
+    .then(data => data.json())
+    .then(data => console.log({ data }))
+    .catch(err => console.error({ err }))
 
 class TodoApp extends Component {
     state = {
