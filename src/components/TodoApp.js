@@ -3,7 +3,12 @@ import { Table, Checkbox, Button } from 'semantic-ui-react';
 
 import TodoItem from './TodoItem'
 
+const headers = {
+    'Content-Type': 'application/json',
+}
+
 class TodoApp extends Component {
+
     state = {
         todos: [],
         newTodo: '',
@@ -65,10 +70,14 @@ class TodoApp extends Component {
         const { newTodo, todos } = this.state
         const value = newTodo.trim()
         if (value) {
-            this.setState({
-                todos: [...todos, { title: value, completed: false }],
-                newTodo: '',
-            })
+            fetch('http://localhost:4500/todos', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    title: value,
+                    completed: false,
+                })
+            }).then(this.fetchTodos).then(() => this.setState({ newTodo: ''}))
         }
 
     }
