@@ -77,22 +77,30 @@ class TodoApp extends Component {
                     title: value,
                     completed: false,
                 })
-            }).then(this.fetchTodos).then(() => this.setState({ newTodo: ''}))
+            }).then(this.fetchTodos).then(() => this.setState({ newTodo: '' }))
         }
 
     }
 
-    handleDelete = (i) => {
-        const { todos } = this.state
-        const todosWithoutDeletedTodo = todos.filter((t, index) => index !== i)
-        this.setState({ todos: todosWithoutDeletedTodo })
+    handleDelete = id => {
+        fetch(`http://localhost:4500/todos/${id}`, {
+            method: 'DELETE',
+            headers,
+        }).then(this.fetchTodos)
     }
 
     handleClearCompleted = () => {
         const { todos } = this.state
-        const incompleteTodos = todos.filter(todo => !todo.completed)
-        this.setState({ todos: incompleteTodos })
+        const completedTodos = todos.filter(todo => todo.completed)
 
+        Promise.all(
+            completedTodos.map(todo =>
+                fetch(`http://localhost:4500/todos/${todo.id}`, {
+                    method: 'DELETE',
+                    headers,
+                }),
+            ),
+        ).then(this.fetchTodos)
     }
 
     render() {
@@ -124,7 +132,7 @@ class TodoApp extends Component {
                             </Table.Header>
                             <Table.Body>
                                 {this.state.todos.map((todo, i) => (
-                                    <TodoItem key={i} todo={todo} handleToggle={() => this.handleTodoClick(todo, i)} handleDelete={() => this.handleDelete(i)} />
+                                    <TodoItem key={i} todo={todo} handleToggle={() => this.handleTodoClick(todo, i)} handleDelete={() => this.handleDelete(todo.id)} />
                                 ))}
                             </Table.Body>
                             <Table.Footer fullWidth>
