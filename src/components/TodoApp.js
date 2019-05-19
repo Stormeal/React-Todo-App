@@ -3,19 +3,23 @@ import { Table, Checkbox, Button } from 'semantic-ui-react';
 
 import TodoItem from './TodoItem'
 
-fetch('http://localhost:4500/todos')
-    .then(data => data.json())
-    .then(data => console.log({ data }))
-    .catch(err => console.error({ err }))
-
 class TodoApp extends Component {
     state = {
-        todos: [
-            { title: 'Learn React', completed: false },
-            { title: 'Learn Redux', completed: false },
-            { title: 'Learn React Native', completed: false },
-        ],
+        todos: [],
         newTodo: '',
+    }
+
+    componentDidMount() {
+        this.fetchTodos()
+
+    }
+
+    fetchTodos = () => {
+
+        fetch('http://localhost:4500/todos')
+            .then(data => data.json())
+            .then(todos => this.setState({ todos }))
+            .catch(err => console.error({ err }))
     }
 
     constructor(props) {
