@@ -32,22 +32,27 @@ class TodoApp extends Component {
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
-    handleToggleAll = () => {
-        const [...todos] = this.state.todos
-        const allToggled = todos.every(todo => todo.completed)
-        const toggledTodos = todos.map(todo => ({ ...todo, completed: !allToggled }))
-        console.log({ toggledTodos });
-
-        this.setState({ todos: toggledTodos })
-
-
+    handleToggleAll = allToggled => {
+        const { todos } = this.state
+        Promise.all(
+            todos.map(todo =>
+                fetch(`http://localhost:4500/todos/${todo.id}`, {
+                    method: 'PATCH',
+                    headers,
+                    body: JSON.stringify({ completed: !allToggled }),
+                }),
+            ),
+        ).then(this.fetchTodos)
     }
 
-    handleTodoClick(todo, index) {
-        const { completed } = todo
-        const [...todos] = this.state.todos
-        todos[index] = { ...todo, completed: !completed, }
-        this.setState({ todos })
+    handleTodoClick(todo) {
+        const { id, completed } = todo
+        fetch(`http://localhost:4500/todos/${id}`, {
+            method: 'PATCH',
+            headers,
+            body: JSON.stringify({ completed: !completed })
+        }).then(this.fetchTodos)
+
     }
 
     handleInputChange(event) {
@@ -126,7 +131,12 @@ class TodoApp extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell>
-                                        <Checkbox checked={allToggled} onChange={this.handleToggleAll} />
+                                        <Checkbox
+                                            checked={allToggled}
+                                            onChange={() =>
+                                                this.handleToggleAll(allToggled)
+                                            }
+                                        />
                                     </Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
